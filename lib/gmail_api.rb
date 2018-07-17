@@ -9,6 +9,7 @@ class GmailApi
   CLIENT_SECRETS_PATH = 'client_secret.json'.freeze
   CREDENTIALS_PATH = 'token.yaml'.freeze
   SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
+  DEFAULT_USER_ID = 'me'
 
   class << self
     def oauth
@@ -46,13 +47,21 @@ class GmailApi
       service = Google::Apis::GmailV1::GmailService.new
       service.client_options.application_name = APPLICATION_NAME
       service.authorization = authorize
+    end
 
+    def get_labels
+      service = connect
       # Show the user's labels
-      user_id = 'me'
-      result = service.list_user_labels(user_id)
+      # user_id = 'me'
+      result = service.list_user_labels(DEFAULT_USER_ID)
       puts 'Labels:'
       puts 'No labels found' if result.labels.empty?
       result.labels.each { |label| puts "- #{label.name}" }
+    end
+
+    def get_message(email_id)
+      service = connect
+      service.get_user_message(DEFAULT_USER_ID, email_id)
     end
   end
 
