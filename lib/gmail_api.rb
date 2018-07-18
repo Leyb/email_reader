@@ -47,16 +47,6 @@ class GmailApi
     service.authorization = authorize
   end
 
-  # def get_labels
-  #   service = connect
-  #   # Show the user's labels
-  #   # user_id = 'me'
-  #   result = service.list_user_labels(DEFAULT_USER_ID)
-  #   puts 'Labels:'
-  #   puts 'No labels found' if result.labels.empty?
-  #   result.labels.each { |label| puts "- #{label.name}" }
-  # end
-
   def get_message(email_id)
     service = connect
     service.get_user_message(DEFAULT_USER_ID, email_id)
