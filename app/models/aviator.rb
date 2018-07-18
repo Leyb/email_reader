@@ -1,19 +1,5 @@
 class Aviator  < ActiveRecord::Base
 
-  has_many :email_images, as: :emailable
-
-  after_create :save_images
-
-  # should this be on a delayed job?
-  def save_images
-    arr_of_images = EmailImage.scan_for_images(body)
-    arr_of_images.each do |image|
-      EmailImage.create!  image_link: image,
-                          obj_type: :Aviator,
-                          obj_id: id
-    end
-  end
-
   # def get_email_content(email_id)
   #   GmailApi.get_message(email_id)
   # end
