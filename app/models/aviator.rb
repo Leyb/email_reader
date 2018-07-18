@@ -1,6 +1,6 @@
-class Aviator
+class Aviator  < ActiveRecord::Base
 
-  has_many :email_image
+  has_many :email_images
 
   after_create :save_images
 
@@ -23,5 +23,13 @@ class Aviator
                         obj_type: :Aviator,
                         obj_id: id
     end
+  end
+
+  def self.read_email
+    my_html_string = File.read('aviator_example.html')
+    doc = Nokogiri::HTML( my_html_string )
+    debugger
+    img_srcs = doc.css('img').map{ |i| i['src'] }
+    p_texts = doc.search('p').map(&:text)
   end
 end
