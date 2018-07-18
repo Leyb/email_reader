@@ -12,7 +12,7 @@ class GmailApi
   DEFAULT_USER_ID = 'me'
 
   def initialize
-    authorize
+    # authorize
   end
 
   ##
@@ -67,9 +67,15 @@ class GmailApi
     doc.search(elem).map(&:text)
   end
 
-  def get_email_content(email_id)
-    html = get_message(email_id)
+  def get_email_texts(email_id)
+    # html = get_message(email_id)
+    html =     File.read('aviator_example.html') # mock
     get_html_texts(html, 'p')
+  end
+
+  def get_email_body(email_id)
+    get_message(email_id)
+    File.read('aviator_example.html') # mock
   end
 
 end

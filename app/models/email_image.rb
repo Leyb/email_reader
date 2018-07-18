@@ -1,7 +1,7 @@
 class EmailImage  < ActiveRecord::Base
-  belongs_to :email, polymorphic: true
+  belongs_to :emailable, polymorphic: true
   #polymorphic relations
-  belongs_to :aviator, foreign_type: 'Aviator', foreign_key: 'obj_id'
+  belongs_to :aviator, foreign_key: 'obj_id', foreign_type: :Aviator
 
 
   def self.scan_for_images(html)

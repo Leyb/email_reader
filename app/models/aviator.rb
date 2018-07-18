@@ -1,16 +1,16 @@
 class Aviator  < ActiveRecord::Base
 
-  has_many :email_images
+  has_many :email_images, as: :emailable
 
   after_create :save_images
 
   # should this be on a delayed job?
   def save_images
-    arr_of_images = EmailImage.scan_for_images(content)
+    arr_of_images = EmailImage.scan_for_images(body)
     arr_of_images.each do |image|
-      EmailImage.create image_link: image,
-                        obj_type: :Aviator,
-                        obj_id: id
+      EmailImage.create!  image_link: image,
+                          obj_type: :Aviator,
+                          obj_id: id
     end
   end
 
@@ -33,10 +33,11 @@ class Aviator  < ActiveRecord::Base
   #   doc.search('p').map(&:text)
   # end
 
-  def save_content(email_id)
+  def save_content!(email_id)
     gmail = GmailApi.new
-    text = gmail.get_email_content(email_id)
-    update_attribute :content, text
+    text = gmail.get_email_texts(email_id)
+    body = gmail.get_email_body(email_id)
+    update_attributes texts: text, body: body
   end
 
 end
