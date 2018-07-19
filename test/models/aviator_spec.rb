@@ -1,8 +1,15 @@
 require 'test_helper'
 
-describe Aviator do
-  it 'create new aviator with content' do
-    aviator = Aviator.new
-    aviator.save_content!('11111') #this method has update, so it'll save obj in database
+class AviatorTest < ActiveSupport::TestCase
+
+  def setup
+    @aviator = Aviator.new
+    @aviator.save_content!('11111')
+  end
+
+  test "should be valid" do
+    assert @aviator.present?
+    assert @aviator.body.present?
+    assert @aviator.texts.present?
   end
 end
